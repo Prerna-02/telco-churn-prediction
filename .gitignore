@@ -1,0 +1,46 @@
+# ---- Secrets: never commit ----
+setup-aws-academy.sh
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+credentials
+aws_credentials
+
+# ---- Duplicate nested copy of this project ----
+Prerna_Gade_SDAIM_Group_Project/
+
+# ---- Separate assignment with its own git repo; not part of this project ----
+mlops_git_assignment/
+
+# ---- Large / non-code artifacts ----
+*.docx
+training.log
+*.bak
+models/churn_model_uncompressed.pkl.bak
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+env/
+ENV/
+
+# ---- Notebooks ----
+.ipynb_checkpoints/
+
+# ---- Tooling / OS ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

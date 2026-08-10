@@ -1,0 +1,14 @@
+# Local development / training / EDA only — deliberately NOT installed in the
+# runtime Docker image, since jupyter + matplotlib + seaborn + xgboost + shap
+# add well over 500MB for things the serving container never does.
+-r requirements.txt
+
+jupyter==1.1.1
+matplotlib==3.10.7
+seaborn==0.13.2
+
+# Model comparison and explainability (training + notebooks only).
+# If XGBoost wins the comparison it must be promoted to requirements.txt,
+# otherwise the saved pipeline cannot be unpickled in the serving image.
+xgboost==3.0.5
+shap==0.48.0

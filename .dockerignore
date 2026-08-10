@@ -1,0 +1,44 @@
+# Keep the build context small and keep secrets out of the image.
+# The Dockerfile copies only src/ and models/ explicitly, but an accidental
+# `COPY . .` should still never pick these up.
+
+# Secrets
+setup-aws-academy.sh
+.env
+.env.*
+*.pem
+*.key
+
+# Duplicate nested copy of the project
+Prerna_Gade_SDAIM_Group_Project/
+
+# Training data and EDA — not needed to serve predictions
+data/
+notebooks/
+*.docx
+training.log
+
+# Python / tooling / VCS
+**/__pycache__
+**/*.py[cod]
+**/.venv
+venv/
+**/.git
+**/.gitignore
+**/.ipynb_checkpoints
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/.vscode
+**/.idea
+**/.DS_Store
+
+# Docker / docs
+**/Dockerfile*
+**/compose.y*ml
+**/docker-compose*
+README.md
+DEPLOYMENT.md
+# NOTE: requirements-dev.txt is deliberately NOT ignored — Dockerfile.dev needs
+# it. The serving Dockerfile only COPYs requirements.txt, so it never lands in
+# the production image.

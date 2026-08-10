@@ -1,0 +1,19 @@
+# Training / experimentation image. Not deployed — the serving image is the
+# slim one in ./Dockerfile. This exists so training runs against the exact same
+# library versions the model will be served with.
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements.txt requirements-dev.txt ./
+RUN pip install --no-cache-dir -r requirements-dev.txt
+
+CMD ["python", "-m", "src.train"]

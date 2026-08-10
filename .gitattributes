@@ -1,0 +1,8 @@
+# Shell scripts must keep LF endings or the Linux container cannot exec them
+# ("exec format error" / "no such file or directory" on the shebang).
+*.sh text eol=lf
+docker-entrypoint.sh text eol=lf
+Dockerfile text eol=lf
+
+# Model artifacts are binary
+*.pkl binary

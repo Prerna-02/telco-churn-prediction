@@ -1,0 +1,10 @@
+# Runtime dependencies (what ships in the Docker image).
+# scikit-learn is pinned to the exact version the model was trained with —
+# unpickling churn_model.pkl on a different version is not guaranteed to work.
+scikit-learn==1.7.2
+pandas==2.3.3
+numpy==2.2.6
+joblib==1.5.2
+fastapi==0.119.0
+uvicorn[standard]==0.38.0
+streamlit==1.50.0

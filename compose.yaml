@@ -1,0 +1,19 @@
+# Local development. Both services build the same image and differ only in
+# APP_MODE — exactly how they differ in production (Render runs `ui`,
+# ECS Fargate runs `api`).
+services:
+  ui:
+    build: .
+    environment:
+      APP_MODE: ui
+      PORT: 8501
+    ports:
+      - "8501:8501"
+
+  api:
+    build: .
+    environment:
+      APP_MODE: api
+      PORT: 8000
+    ports:
+      - "8000:8000"

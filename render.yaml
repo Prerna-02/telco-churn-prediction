@@ -1,0 +1,15 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# In the Render dashboard: New > Blueprint > pick this repo. Render reads this
+# file, builds the Dockerfile, and injects $PORT, which docker-entrypoint.sh
+# passes to Streamlit.
+services:
+  - type: web
+    name: telco-churn-streamlit
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: APP_MODE
+        value: ui
