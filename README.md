@@ -14,6 +14,15 @@ Given a telecom customer's profile (contract type, tenure, services, billing),
 the model returns the probability that the customer will churn, a Yes/No
 prediction, and a Low / Medium / High risk bucket.
 
+The Streamlit app has two tabs:
+
+- **Single customer** — a form for one profile, with impossible service
+  combinations locked out
+- **Batch upload** — drop in a CSV of customers, get every row scored, with a
+  risk summary and the results downloadable as CSV. Extra columns
+  (`customerID`, `Churn`) pass through untouched; rows with blank or invalid
+  values are flagged rather than silently dropped.
+
 | Risk | Probability |
 |------|-------------|
 | Low | < 0.30 |

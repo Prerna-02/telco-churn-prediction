@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 import joblib
+import numpy as np
 import pandas as pd
 
 from src.schema import NUMERIC_NAMES
@@ -81,6 +82,51 @@ def get_risk_bucket(p: float) -> str:
     elif p >= medium_from:
         return "Medium"
     return "Low"
+
+
+def predict_batch(frame: pd.DataFrame) -> pd.DataFrame:
+    """Score many customers at once.
+
+    Scores every row the model can handle and marks the rest rather than
+    failing the whole file — one bad row in a 70-row upload should not cost the
+    user the other 69. Extra columns (customerID, Churn, gender) are ignored.
+
+    Returns the input frame with churn_probability, prediction, risk_level and
+    scored (False for rows that could not be scored) appended.
+    """
+    model = load_model()
+    expected_cols = list(model.feature_names_in_)
+
+    missing_cols = [c for c in expected_cols if c not in frame.columns]
+    if missing_cols:
+        raise MissingFeatures(missing_cols)
+
+    X = frame[expected_cols].copy()
+
+    # Blank strings and stray text in numeric columns become NaN, which marks
+    # the row unscoreable instead of crashing the pipeline.
+    for col in expected_cols:
+        if col in NUMERIC_NAMES:
+            X[col] = pd.to_numeric(X[col], errors="coerce")
+        else:
+            X[col] = X[col].replace("", pd.NA)
+
+    scoreable = X.notna().all(axis=1)
+
+    result = frame.copy()
+    result["churn_probability"] = pd.NA
+    result["prediction"] = pd.NA
+    result["risk_level"] = pd.NA
+    result["scored"] = scoreable.values
+
+    if scoreable.any():
+        proba = model.predict_proba(X[scoreable])[:, 1]
+        threshold = get_threshold()
+        result.loc[scoreable, "churn_probability"] = proba.round(4)
+        result.loc[scoreable, "prediction"] = np.where(proba >= threshold, "Yes", "No")
+        result.loc[scoreable, "risk_level"] = [get_risk_bucket(float(p)) for p in proba]
+
+    return result
 
 
 def predict(features: Dict[str, Any]) -> Dict[str, Any]:
