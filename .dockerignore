@@ -18,6 +18,11 @@ notebooks/
 *.docx
 training.log
 
+# Backup model artifacts — the 38MB uncompressed pickle was being copied into
+# the image by `COPY models/`, for nothing.
+*.bak
+models/*.bak
+
 # Python / tooling / VCS
 **/__pycache__
 **/*.py[cod]
