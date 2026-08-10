@@ -114,7 +114,9 @@ def predict_batch(frame: pd.DataFrame) -> pd.DataFrame:
     scoreable = X.notna().all(axis=1)
 
     result = frame.copy()
-    result["churn_probability"] = pd.NA
+    # float, not pd.NA — an object-dtype column cannot be sorted or fed to
+    # Streamlit's ProgressColumn, and unscored rows need a real NaN.
+    result["churn_probability"] = np.nan
     result["prediction"] = pd.NA
     result["risk_level"] = pd.NA
     result["scored"] = scoreable.values
