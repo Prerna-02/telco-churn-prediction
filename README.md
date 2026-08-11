@@ -6,10 +6,6 @@ Streamlit demo on Render, and a JSON prediction API on AWS ECS Fargate.
 
 **🔗 Live demo: https://telco-churn-streamlit-pqav.onrender.com**
 
-> Hosted on Render's free tier, which sleeps after 15 minutes of inactivity —
-> the first request may take ~50 seconds to wake the service. Subsequent
-> requests are instant.
-
 ---
 
 ## What it does
