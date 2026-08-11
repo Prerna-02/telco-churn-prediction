@@ -4,7 +4,11 @@ End-to-end ML project: train a churn classifier on the IBM Telco Customer Churn
 dataset, package it with Docker, and deploy the same image two ways — a public
 Streamlit demo on Render, and a JSON prediction API on AWS ECS Fargate.
 
-**Live demo:** _add your Render URL here after deploying_
+**🔗 Live demo: https://telco-churn-streamlit-pqav.onrender.com**
+
+> Hosted on Render's free tier, which sleeps after 15 minutes of inactivity —
+> the first request may take ~50 seconds to wake the service. Subsequent
+> requests are instant.
 
 ---
 
